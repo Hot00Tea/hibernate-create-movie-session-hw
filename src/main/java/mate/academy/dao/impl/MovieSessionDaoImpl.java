@@ -53,7 +53,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
-    public List<MovieSession> findAvailableSession(Long id, LocalDate date) {
+    public List<MovieSession> findAvailableSessions(Long id, LocalDate date) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             LocalDateTime startOfDay = date.atStartOfDay();
             LocalDateTime endOfDay = date.atTime(23,59,59);
@@ -64,7 +64,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
                             "WHERE ms.movie.id = :movieId "
                             +
                             "AND ms.showTime BETWEEN :start AND :end", MovieSession.class)
-                    .setParameter("movie", id)
+                    .setParameter("movieId", id)
                     .setParameter("start", startOfDay)
                     .setParameter("end", endOfDay)
                     .getResultList();
