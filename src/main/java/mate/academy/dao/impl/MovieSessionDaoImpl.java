@@ -20,6 +20,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
             session.persist(movieSession);
+            transaction.commit();
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {
@@ -65,7 +66,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
                             "AND ms.showTime BETWEEN :start AND :end", MovieSession.class)
                     .setParameter("movie", id)
                     .setParameter("start", startOfDay)
-                    .setParameter("edn", endOfDay)
+                    .setParameter("end", endOfDay)
                     .getResultList();
 
         } catch (Exception e) {
